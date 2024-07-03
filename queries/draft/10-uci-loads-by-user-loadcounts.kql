@@ -1,0 +1,14 @@
+//
+// Summarizes load counts by user for use in barchart.
+//
+
+pageViews
+| where isnotempty(customDimensions.entityName)
+| where customDimensions.isBoot == {ParamIsBoot}
+| extend loadType = toint(customDimensions.loadType)
+| extend isColdLoad = iff(loadType == 0 or loadType  == 1, true, false), ColdLatency = toreal(customDimensions.coldLatency), WarmLatency = toreal(customDimensions.warmLatency)
+| summarize loadCount = count(), 
+    coldLoadCount = countif(isColdLoad == true),
+    warmLoadCount = countif(isColdLoad == false)
+    by user_Id
+| top 10 by loadCount

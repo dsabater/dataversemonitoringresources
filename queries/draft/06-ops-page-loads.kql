@@ -1,0 +1,19 @@
+//
+// Return page loads.
+//
+
+// Workbook Version
+let loadTypeMappingTable = datatable(LoadType:int, LoadTypeName:string) [
+    0, "First visit to page type",
+    1, "First visit to configuration",
+    2, "First visit to record",
+    3, "Has been visited previously"
+];
+pageViews
+| where name startswith "EditForm Load -"
+| extend Table=tostring(customDimensions.entityName), IsBoot=tobool(customDimensions.isBoot), LoadType=toint(customDimensions.loadType)
+| where "*" in ({PageOpsTableParam}) or Table in ({PageOpsTableParam})
+| lookup loadTypeMappingTable on LoadType
+| summarize Executions=count(), AvgDuration=round(avg(duration)), P95 = percentile(duration, 95) by Table, LoadType, LoadTypeName, IsBoot
+| order by Executions
+| project Table, Load = strcat(LoadType, " - ", LoadTypeName), IsBoot, Executions, AvgDuration, P95

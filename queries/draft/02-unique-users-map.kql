@@ -1,0 +1,7 @@
+//
+// Returns distinct user count by country or region for map display.
+//
+
+pageViews
+| where timestamp between(startTime .. endTime)
+| summarize Count = count_distinct(user_Id) by client_CountryOrRegion

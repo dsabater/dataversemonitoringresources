@@ -1,0 +1,30 @@
+//
+// Groups the loads and timing by user.
+//
+
+
+let myPageViews = pageViews
+| where isnotempty(customDimensions.entityName)
+| where customDimensions.isBoot == {ParamIsBoot}
+| extend loadType = toint(customDimensions.loadType)
+| extend isColdLoad = iff(loadType == 0 or loadType  == 1, true, false), ColdLatency = toreal(customDimensions.coldLatency), WarmLatency = toreal(customDimensions.warmLatency);
+let byTable = myPageViews
+| summarize loadCount = count(), 
+    coldLoadCount = countif(isColdLoad == true),
+    warmLoadCount = countif(isColdLoad == false),
+    avgColdLoad = avg(ColdLatency),
+    avgWarmLoad = avg(WarmLatency)
+    by user_Id
+| top 250 by user_Id asc
+| project Order = 1, user_Id, ["# Loads"] = loadCount, ["# Cold loads"] = coldLoadCount, ["# Warm loads"] = warmLoadCount, 
+    ["Cold Load (Avg ms)"] = avgColdLoad, ["Warm Load (Avg ms)"] = avgWarmLoad;
+let summary = myPageViews
+| summarize loadCount = count(), 
+    coldLoadCount = countif(isColdLoad == true),
+    warmLoadCount = countif(isColdLoad == false),
+    avgColdLoad = avg(ColdLatency),
+    avgWarmLoad = avg(WarmLatency)
+| project Order = 2, user_Id = "Total", ["# Loads"] = loadCount, ["# Cold loads"] = coldLoadCount, ["# Warm loads"] = warmLoadCount, 
+    ["Cold Load (Avg ms)"] = avgColdLoad, ["Warm Load (Avg ms)"] = avgWarmLoad;
+union byTable, summary
+| order by Order, user_Id asc

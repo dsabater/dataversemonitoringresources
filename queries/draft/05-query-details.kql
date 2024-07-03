@@ -1,0 +1,11 @@
+//
+// Shows the top 10 slowest queries for a given table
+//
+
+// Log Analytics Version
+dependencies
+| where type == "SDKRetrieveMultiple"
+| where name == "account"
+| top 10 by duration
+| project Time = timestamp, Duration = duration, Details = itemId
+

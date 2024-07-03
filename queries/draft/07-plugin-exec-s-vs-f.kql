@@ -1,0 +1,10 @@
+//
+// Returns Plugin execution count split by success/failure.
+// Good for Pie Chart in Workbook.
+//
+
+// Log Analytics Version
+dependencies
+| where type == "Plugin"
+| summarize Count = count() by success
+

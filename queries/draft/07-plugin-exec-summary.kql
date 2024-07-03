@@ -1,0 +1,23 @@
+//
+// Returns error count, total count and average duration, each as a row in the table.
+// Good for tile visualization in workbooks.
+//
+
+// Log Analytics Version
+let errorCount = dependencies
+| where type == "Plugin"
+| summarize Value = toreal(countif(success == false))
+| project Name = "# Error", Value;
+let totalCount = dependencies
+| where type == "Plugin"
+| summarize Value = toreal(count())
+| project Name = "Count", Value;
+let errorPercent = myDependencies
+| summarize totalCount = toreal(count()), errorCount = toreal(countif(success == false))
+| extend Value = 100 / totalCount * errorCount
+| project Name = "% Error", Value;
+let avgDuration = dependencies
+| where type == "Plugin"
+| summarize Value = round(avg(duration))
+| project Name = "AvgDuration", Value;
+union errorCount, totalCount, errorPercent, avgDuration

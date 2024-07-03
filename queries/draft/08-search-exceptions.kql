@@ -1,0 +1,9 @@
+//
+// Searches in all fields of the exceptions table for the given search term.
+//
+
+// Log Analytics Version
+search in (exceptions) "search string"
+| top 250 by timestamp
+| project Time = timestamp, problemId, Message = outerMessage, details, customDimensions, operation_Id, operation_ParentId, session_Id, user_Id, user_AuthenticatedId, client_Type, client_City, client_StateOrProvince, client_CountryOrRegion, Item = itemId
+

@@ -1,0 +1,14 @@
+//
+// Groups different load times by country for Barchart visualization.
+//
+
+// Workbook Version
+pageViews
+| where isnotempty(customDimensions.entityName)
+| where customDimensions.isBoot == 1
+| extend ColdLatency = toreal(customDimensions.coldLatency), WarmLatency = toreal(customDimensions.warmLatency)
+| summarize avgColdLoad = avg(ColdLatency),
+    avgWarmLoad = avg(WarmLatency),
+    avgDuration = avg(duration)
+    by client_CountryOrRegion
+| order by avgDuration

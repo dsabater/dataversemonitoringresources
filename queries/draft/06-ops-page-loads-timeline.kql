@@ -1,0 +1,9 @@
+//
+// Returns page loads for timeline visualization.
+//
+
+pageViews
+| where name startswith "EditForm Load -"
+| extend Table=tostring(customDimensions.entityName), IsBoot=tobool(customDimensions.isBoot), LoadType=toint(customDimensions.loadType)
+| where "*" in ({PageOpsTableParam}) or Table in ({PageOpsTableParam})
+| make-series AvgDuration=round(avg(duration)), P95 = percentile(duration, 95) default=0 on timestamp step 1h

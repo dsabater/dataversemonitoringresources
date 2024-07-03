@@ -1,0 +1,10 @@
+//
+// Returns two time series for total execution and failed execution count.
+// Used to render a timechart.
+//
+
+// Log Analytics Version
+dependencies
+| where type == "Plugin"
+| make-series ["# Error"] = countif(success == false), Count = count() default=0 on timestamp step 1d
+| render timechart

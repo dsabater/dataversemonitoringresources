@@ -1,0 +1,11 @@
+//
+// Returns exceptions matching the entityName and problemId parameter.
+// When used inside a workbook remember to configure cell columns to have links.
+//
+
+// Log Analytics Version
+exceptions
+| project Time = timestamp, Message = outerMessage, 
+    ["Custom Dimension"] = customDimensions, ["User Id"] = user_Id, 
+    Item = itemId
+| top 250 by Time

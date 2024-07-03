@@ -1,0 +1,10 @@
+//
+// Returns operations against different tables.
+//
+
+dependencies
+| where type in ("SDKCreate","SDKUpsert", "SDKUpdate", "SDKDelete")
+| extend Operation=substring(type, 3)
+| extend Table=tostring(customDimensions.entityName)
+| summarize Executions=count(), AvgDuration=round(avg(duration)), P95 = percentile(duration, 95) by Operation, Table=target
+| sort by Executions desc

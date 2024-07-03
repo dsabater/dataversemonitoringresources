@@ -1,0 +1,6 @@
+pageViews
+| where name startswith "EditForm Load -"
+| extend cd=parse_json(customDimensions)
+| extend Table=tostring(cd.entityName), IsBoot=tobool(cd.isBoot), LoadType=toint(cd.loadType)
+| summarize Executions=count(), AvgDuration=round(avg(duration)) by Table, LoadType, IsBoot
+

@@ -1,0 +1,16 @@
+//
+// Returns requests by user type for a time line visualization.
+//
+
+let identifyUserType = (user_Id:string, userAgent:string) { 
+    case(user_Id != "00000000-0000-0000-0000-000000000000", "Human",
+        user_Id == "00000000-0000-0000-0000-000000000000" and userAgent == "Other", "Application",
+        user_Id == "00000000-0000-0000-0000-000000000000" and userAgent != "Other", "System",
+        "Unknown") 
+};
+requests
+| extend userAgentString = customDimensions.userAgent
+| extend userAgentParsed = parse_user_agent(userAgentString, "browser")
+| extend userAgent = todynamic(userAgentParsed).Browser.Family
+| extend userType = identifyUserType(user_Id, userAgent)
+| make-series Count = count() default=0 on timestamp step {TimeRangeParam:grain} by userType

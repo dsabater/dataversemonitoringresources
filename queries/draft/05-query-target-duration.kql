@@ -1,0 +1,10 @@
+//
+// Returns SDKRetrieveMultiple queries summarized by avg duration and table
+//
+
+//Log Analytics Version
+dependencies
+| where type == "SDKRetrieveMultiple"
+| summarize ["Avg Duration"]=avg(duration), Count = count() by name
+| top 100 by ['Avg Duration']
+

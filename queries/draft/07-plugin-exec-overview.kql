@@ -1,0 +1,11 @@
+//
+// Returns all plugin executions and summarizes Error count, total count, and average duration.
+//
+
+// Log Analytics Version
+dependencies
+| where type == "Plugin"
+| summarize ["# Error"] = countif(success == false), Count = count(), AvgDuration = round(avg(duration)) by name
+| project Name = name, ["# Error"], Count, AvgDuration
+| sort by AvgDuration
+

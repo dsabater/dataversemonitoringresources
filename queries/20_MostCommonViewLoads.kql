@@ -1,0 +1,8 @@
+pageViews
+| where name startswith "EntityList"
+| extend cd=parse_json(customDimensions)
+| extend Table = tostring(cd.entityName)
+| extend ViewId = tostring(cd.viewId)
+| summarize Hits=count(), ['Avg Load time']=round(avg(duration)) by Table, ViewId
+| sort by Hits desc 
+| take 20

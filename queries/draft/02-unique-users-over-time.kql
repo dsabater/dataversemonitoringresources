@@ -1,0 +1,8 @@
+//
+// Returns a time series for unique users over time
+//
+
+// Log Analytics Version
+pageViews
+| make-series ["User Count"]=count_distinct(user_Id) default=0 on timestamp step 1h
+| render timechart

@@ -1,0 +1,9 @@
+pageViews
+| where name startswith "EntityList"
+| extend cd=parse_json(customDimensions)
+| extend Table = cd.entityName
+| extend ViewId = tostring(cd.viewId)
+| where ViewId == "VIEWGUIDHERE"
+| where isnotempty(ViewId)
+| project timestamp, Table, ViewId, duration
+| summarize Avg=round(avg(duration)), Hits=count() by bin(timestamp, 1h )

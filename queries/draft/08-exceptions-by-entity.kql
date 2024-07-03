@@ -1,0 +1,11 @@
+//
+// Returns exception count by Entity and ProblemId
+//
+
+// Log Analytics Version
+exceptions
+| where isnotnull(customDimensions.entityName)
+| extend Entity = tostring(customDimensions.entityName)
+| summarize Exceptions = count() by Entity, problemId
+| order by Exceptions
+| project Entity, Type = problemId, Exceptions

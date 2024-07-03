@@ -1,0 +1,12 @@
+//
+// Summarizes load times by user for use in barchart.
+//
+
+pageViews
+| where isnotempty(customDimensions.entityName)
+| where customDimensions.isBoot == {ParamIsBoot}
+| extend ColdLatency = toreal(customDimensions.coldLatency), WarmLatency = toreal(customDimensions.warmLatency)
+| summarize avgColdLoad = avg(ColdLatency),
+    avgWarmLoad = avg(WarmLatency)
+    by user_Id
+| top 10 by avgColdLoad

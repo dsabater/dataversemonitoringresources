@@ -1,0 +1,10 @@
+//
+// Returns a time series for average plugion execution duration.
+// Used to render a timechart.
+//
+
+// Log Analytics Version
+dependencies
+| where type == "Plugin"
+| make-series AvgDuration = round(avg(duration)) default=0 on timestamp step 1d
+| render timechart 

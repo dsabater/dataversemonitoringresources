@@ -1,0 +1,337 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "value::selected"
+        ],
+        "parameters": [
+          {
+            "id": "70b0219c-340c-449d-83c5-3932ecc01282",
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeRange",
+            "type": 4,
+            "isRequired": true,
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 14400000
+                },
+                {
+                  "durationMs": 43200000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 172800000
+                },
+                {
+                  "durationMs": 259200000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 1209600000
+                },
+                {
+                  "durationMs": 2419200000
+                },
+                {
+                  "durationMs": 2592000000
+                },
+                {
+                  "durationMs": 5184000000
+                },
+                {
+                  "durationMs": 7776000000
+                }
+              ],
+              "allowCustom": true
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": {
+              "durationMs": 604800000
+            }
+          },
+          {
+            "id": "ef257d3f-a01e-4938-b969-bbc86032f7f7",
+            "version": "KqlParameterItem/1.0",
+            "name": "ApplicationInsightsResource",
+            "label": "Application Insights Resource",
+            "type": 5,
+            "isRequired": true,
+            "query": "where type == 'microsoft.insights/components'\r\n| project value = id, label = name, selected = false, group = resourceGroup",
+            "crossComponentResources": [
+              "value::selected"
+            ],
+            "typeSettings": {
+              "resourceTypeFilter": {
+                "microsoft.insights/components": true
+              },
+              "additionalResourceOptions": [],
+              "showDefault": false
+            },
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": "/subscriptions/a4252005-c45d-4dbd-af31-93a498053203/resourceGroups/dasabateME-MngEnvMCAP525856-lucatala-7RG/providers/microsoft.insights/components/dasabateAppInsightsEastUS"
+          }
+        ],
+        "style": "pills",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources"
+      },
+      "name": "parameters - 3"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "pageViews\r\n| where name startswith \"EditForm\"\r\n| extend cd=parse_json(customDimensions)\r\n| extend Table = tostring(cd.entityName)\r\n| extend FormId = tostring(cd.formId)\r\n| summarize Hits=count(), ['Avg Load time']=round(avg(duration)) by Table\r\n| sort by Hits desc \r\n| take 10",
+        "size": 0,
+        "title": "Top 10 active Form loads by Table",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "crossComponentResources": [
+          "{ApplicationInsightsResource}"
+        ],
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "Avg Load time",
+              "formatter": 1,
+              "numberFormat": {
+                "unit": 23,
+                "options": {
+                  "style": "decimal",
+                  "maximumFractionDigits": 2
+                }
+              }
+            }
+          ]
+        }
+      },
+      "customWidth": "33",
+      "name": "MostCommonForms"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "pageViews\r\n| where name startswith \"EntityList\"\r\n| extend cd=parse_json(customDimensions)\r\n| extend Table = tostring(cd.entityName)\r\n| extend ViewId = tostring(cd.viewId)\r\n| summarize Hits=count(), ['Avg Load time']=round(avg(duration)) by Table\r\n| sort by Hits desc \r\n| take 10",
+        "size": 0,
+        "title": "Top 10 active Views by Table",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "crossComponentResources": [
+          "{ApplicationInsightsResource}"
+        ],
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "Avg Load time",
+              "formatter": 0,
+              "numberFormat": {
+                "unit": 23,
+                "options": {
+                  "style": "decimal",
+                  "maximumFractionDigits": 2
+                }
+              }
+            }
+          ]
+        }
+      },
+      "customWidth": "45",
+      "name": "MostCommonViews"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "\r\npageViews\r\n| where name startswith \"EntityList\"\r\n| extend cd=parse_json(customDimensions)\r\n| extend Table = cd.entityName\r\n| extend ViewId = tostring(cd.viewId)\r\n| where ViewId == \"00000000-0000-0000-00aa-000010001003\"\r\n| where isnotempty(ViewId)\r\n| project timestamp, Table, ViewId, duration\r\n| summarize Avg=round(avg(duration)), Hits=count() by bin(timestamp, {TimeRange:grain} )\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+        "size": 0,
+        "title": "SpecificViewPerformance",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "crossComponentResources": [
+          "{ApplicationInsightsResource}"
+        ],
+        "visualization": "barchart",
+        "chartSettings": {
+          "showLegend": true
+        }
+      },
+      "name": "SpecificViewPerformance"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "dependencies\r\n| where user_Id != \"00000000-0000-0000-0000-000000000000\"\r\n| where isempty(operation_SyntheticSource)\r\n| where type in  (\"SDKCreate\", \"SDKUpdate\", \"SDKRetrieve\", \"SDKRetrieveMultiple\", \"SDKDelete\")\r\n| extend Action = substring(type, 3)\r\n| make-series Requests=count() default =0 on timestamp step {TimeRange:grain} by Action\r\n| mv-expand timestamp to typeof(datetime), Requests to typeof(long)\r\n",
+        "size": 0,
+        "title": "Operations by time",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "crossComponentResources": [
+          "{ApplicationInsightsResource}"
+        ],
+        "visualization": "barchart"
+      },
+      "name": "OperationsByTime"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "pageViews\r\n| make-series Users=dcount(user_Id) default = 0 on timestamp step {TimeRange:grain} \r\n| mv-expand timestamp to typeof(datetime), Users to typeof(long)\r\n\r\n\r\n",
+        "size": 0,
+        "aggregation": 2,
+        "title": "Active Users by time",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "crossComponentResources": [
+          "{ApplicationInsightsResource}"
+        ],
+        "visualization": "barchart",
+        "gridSettings": {
+          "sortBy": [
+            {
+              "itemKey": "timestamp",
+              "sortOrder": 2
+            }
+          ]
+        },
+        "sortBy": [
+          {
+            "itemKey": "timestamp",
+            "sortOrder": 2
+          }
+        ]
+      },
+      "name": "02_ActiveUsersByTime"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "pageViews\r\n| summarize Count = count_distinct(user_Id) by client_CountryOrRegion",
+        "size": 0,
+        "title": "Users by Country",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "crossComponentResources": [
+          "{ApplicationInsightsResource}"
+        ],
+        "visualization": "map",
+        "mapSettings": {
+          "locInfo": "CountryRegion",
+          "locInfoColumn": "client_CountryOrRegion",
+          "sizeSettings": "Count",
+          "sizeAggregation": "Sum",
+          "opacity": 0.5,
+          "labelSettings": "client_CountryOrRegion",
+          "legendMetric": "Count",
+          "legendAggregation": "Sum",
+          "itemColorSettings": {
+            "nodeColorField": "Count",
+            "colorAggregation": "Sum",
+            "type": "heatmap",
+            "heatmapPalette": "greenRed"
+          }
+        }
+      },
+      "name": "UsersByCountry"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "pageViews\r\n| summarize ['Active Users'] = dcount(user_Id)\r\n| project ['Active Users']",
+        "size": 0,
+        "title": "Active users",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "crossComponentResources": [
+          "{ApplicationInsightsResource}"
+        ],
+        "visualization": "tiles",
+        "tileSettings": {
+          "titleContent": {
+            "columnMatch": "Active Users",
+            "formatter": 1,
+            "numberFormat": {
+              "unit": 0,
+              "options": {
+                "style": "decimal"
+              }
+            }
+          },
+          "showBorder": false,
+          "size": "auto",
+          "rowLimit": 100
+        }
+      },
+      "customWidth": "16",
+      "name": "01_ActiveUsers",
+      "styleSettings": {
+        "margin": "2",
+        "padding": "2"
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "requests\r\n| summarize CountFailed = countif(success == false), Count = count()\r\n| project ['API Pass Rate'] =  (Count - CountFailed) / todouble(Count)\r\n",
+        "size": 0,
+        "title": "API Pass rate",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "crossComponentResources": [
+          "{ApplicationInsightsResource}"
+        ],
+        "visualization": "tiles",
+        "tileSettings": {
+          "titleContent": {
+            "columnMatch": "API Pass Rate",
+            "formatter": 1,
+            "numberFormat": {
+              "unit": 0,
+              "options": {
+                "style": "percent",
+                "minimumFractionDigits": 2
+              }
+            }
+          },
+          "showBorder": true,
+          "size": "auto"
+        }
+      },
+      "customWidth": "16",
+      "name": "21_APIPassRate",
+      "styleSettings": {
+        "margin": "2",
+        "padding": "2"
+      }
+    }
+  ],
+  "fallbackResourceIds": [
+    "APPLICATIONINSIGHTSRESOURCEID"
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}

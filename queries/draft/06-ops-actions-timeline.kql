@@ -1,0 +1,10 @@
+//
+// Returns actions as timeline.
+//
+
+//Workbook Version
+dependencies
+| where type in ("SDKCreate","SDKUpsert", "SDKUpdate", "SDKDelete")
+| extend Operation=substring(type, 3)
+| extend Table=tostring(customDimensions.entityName)
+| make-series AvgDuration=round(avg(duration)), P95 = percentile(duration, 95) default=0 on timestamp step 1h

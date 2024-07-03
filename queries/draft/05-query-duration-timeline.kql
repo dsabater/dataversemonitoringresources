@@ -1,0 +1,9 @@
+//
+// Returns a time series of average query duration.
+//
+
+// Log Analytics Version
+dependencies
+| where type == "SDKRetrieveMultiple"
+| make-series ["Avg Duration"]=avg(duration) default=0 on timestamp step 1h
+| render timechart

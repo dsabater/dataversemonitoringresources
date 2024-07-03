@@ -1,0 +1,34 @@
+//
+// Summarizes the page loads using PageViews and a couple of parameter from the workbook.
+//
+
+//Workbook Version
+let myPageViews = pageViews
+| where isnotempty(customDimensions.entityName)
+| where customDimensions.isBoot == {ParamIsBoot}
+| extend Table = tostring(customDimensions.entityName), SyncReqTime = toreal(customDimensions.syncRequestTime),
+    ColdLatency = toreal(customDimensions.coldLatency), WarmLatency = toreal(customDimensions.warmLatency),
+    FormId = tostring(customDimensions.formId);
+let byTable = myPageViews
+| summarize loadCount = count(), 
+    avgColdLoad = avg(ColdLatency),
+    avgWarmLoad = avg(WarmLatency),
+    avgDuration = avg(duration),
+    avgSyncRegTime = avg(SyncReqTime),
+    percentiles(duration, 75, 90, 95) 
+    by Table, FormId
+| top 250 by Table asc
+| project Order = 1, Table, FormId, ["# Loads"] = loadCount, ["Cold Load (Avg ms)"] = avgColdLoad, ["Warm Load (Avg ms)"] = avgWarmLoad, 
+    ["LoadTime (Avg ms)"] = avgDuration, ["Sync Req Time (Avg ms)"] = avgSyncRegTime, 
+    ["p75 (Avg ms)"] = percentile_duration_75, ["p90 (Avg ms)"] = percentile_duration_90, ["p95 (Avg ms)"] = percentile_duration_95;
+let summary = myPageViews
+| summarize loadCount = count(), 
+    avgColdLoad = avg(ColdLatency),
+    avgWarmLoad = avg(WarmLatency),
+    avgDuration = avg(duration),
+    avgSyncRegTime = avg(SyncReqTime),
+    percentiles(duration, 75, 90, 95) 
+| project Order = 1, Table = "Total", FormId = "", ["# Loads"] = loadCount, ["Cold Load (Avg ms)"] = avgColdLoad, ["Warm Load (Avg ms)"] = avgWarmLoad, ["LoadTime (Avg ms)"] = avgDuration, ["Sync Req Time (Avg ms)"] = avgSyncRegTime, 
+    ["p75 (Avg ms)"] = percentile_duration_75, ["p90 (Avg ms)"] = percentile_duration_90, ["p95 (Avg ms)"] = percentile_duration_95;
+union byTable, summary
+| order by Order, Table asc

@@ -1,0 +1,2 @@
+pageViews
+| summarize Count = count_distinct(user_Id) by client_CountryOrRegion

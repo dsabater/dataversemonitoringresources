@@ -1,0 +1,9 @@
+// comments
+pageViews
+| where name startswith "EditForm"
+| extend cd=parse_json(customDimensions)
+| extend Table = tostring(cd.entityName)
+| extend FormId = tostring(cd.formId)
+| summarize Hits=count(), ['Avg Load time']=round(avg(duration)) by Table
+| sort by Hits desc 
+| take 10

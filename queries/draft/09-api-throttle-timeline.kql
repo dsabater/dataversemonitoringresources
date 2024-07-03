@@ -1,0 +1,10 @@
+//
+// Returns requests that have been thorttled as a timechart.
+//
+
+//Log Analytics Version
+requests
+| where resultCode == "429"
+| make-series Count=count() default=0 on timestamp step 1h
+| render timechart
+

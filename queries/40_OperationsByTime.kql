@@ -1,0 +1,8 @@
+dependencies
+| where timestamp > ago(7d)
+| where user_Id != "00000000-0000-0000-0000-000000000000"
+| where isempty(operation_SyntheticSource)
+| where type in  ("SDKCreate", "SDKUpdate", "SDKRetrieve", "SDKRetrieveMultiple", "SDKDelete")
+| extend Action = substring(type, 3)
+| make-series Requests=count() default =0 on timestamp step 1h by Action
+| mv-expand timestamp to typeof(datetime), Requests to typeof(long)
