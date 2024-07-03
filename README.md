@@ -8,9 +8,11 @@ This repository contains **queries** in KQL format and **Azure workbooks** in JS
 
 # Instructions - Workbooks
 To create an Azure Workbook based on this sample:
-1. Download the [workbook JSON source](workbooks\DataverseMonitoringWorkbook101.json)
+1. Download the [workbook JSON source](workbooks/DataverseMonitoringWorkbook101.json)
 2. In a text editor, replace the string **APPINSIGHTSRESOURCEID** with the target Application Insights resource. Example: */subscriptions/mySubscriptionId/resourceGroups/myResourceGroup/providers/microsoft.insights/components/myAppInsightsResource*
 3. Navigate to your Azure portal and then to your Application Insights resource.
 4. Click on Workbooks - New
 5. Click on Advanced Editor
 6. Paste the code from the text editor in step 2.
+
+
