@@ -1,0 +1,4 @@
+requests
+| where customDimensions.resourceProvider == 'Cloud Flow'
+| extend data=parse_json(tostring(customDimensions.Data))
+| distinct FlowDisplayName=tostring(data.FlowDisplayName), FlowId=tostring(customDimensions.resourceId)

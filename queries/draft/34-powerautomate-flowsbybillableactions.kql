@@ -1,0 +1,7 @@
+dependencies
+| where customDimensions.resourceProvider == 'Cloud Flow'
+| where customDimensions.error !contains 'skipped'
+| extend data=parse_json(tostring(customDimensions.Data))
+| extend FlowName=tostring(data.FlowDisplayName)
+| summarize BillableActions=count() by FlowName
+| top 10 by BillableActions desc

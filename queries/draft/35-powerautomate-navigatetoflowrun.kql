@@ -1,0 +1,13 @@
+requests
+| where customDimensions.resourceProvider == 'Cloud Flow'
+| where success == False
+| extend cd=parse_json(customDimensions)
+| extend data=parse_json(tostring(cd.Data))
+| extend EnvironmentId = tostring(cd.environmentId)
+| extend FlowId = name
+| extend RunId = operation_ParentId
+| extend FlowName=tostring(data.FlowDisplayName)
+| extend RunUrl = strcat("https://make.powerautomate.com/environments/", EnvironmentId, "/flows/", FlowId, "/runs/", RunId)
+| project timestamp, FlowName, RunUrl
+
+

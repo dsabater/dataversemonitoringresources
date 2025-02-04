@@ -1,0 +1,7 @@
+dependencies
+| where customDimensions.resourceProvider == 'Cloud Flow'
+| where customDimensions.signalCategory == 'Cloud flow triggers'
+| where success == False
+| extend tags=parse_json(tostring(customDimensions.tags))
+| extend FlowName=tostring(tags.flowDisplayName)
+| summarize TriggerFailures=count() by FlowName
