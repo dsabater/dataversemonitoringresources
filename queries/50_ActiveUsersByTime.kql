@@ -1,3 +1,4 @@
+// Active users by time
 pageViews
 | make-series Users=dcount(user_Id) default = 0 on timestamp step 1h
 | mv-expand timestamp to typeof(datetime), Users to typeof(long)

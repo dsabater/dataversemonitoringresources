@@ -1,3 +1,4 @@
+// Operations by time
 dependencies
 | where timestamp > ago(7d)
 | where user_Id != "00000000-0000-0000-0000-000000000000"

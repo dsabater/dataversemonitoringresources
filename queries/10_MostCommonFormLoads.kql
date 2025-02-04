@@ -1,4 +1,4 @@
-// comments
+// Form loads
 pageViews
 | where name startswith "EditForm"
 | extend cd=parse_json(customDimensions)

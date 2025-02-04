@@ -1,3 +1,4 @@
+// Performance for one view
 pageViews
 | where name startswith "EntityList"
 | extend cd=parse_json(customDimensions)

@@ -1,3 +1,4 @@
+// API Pass rate
 requests
 | summarize CountFailed = countif(success == false), Count = count()
 | project ['API Pass Rate'] =  (Count - CountFailed) / todouble(Count)
