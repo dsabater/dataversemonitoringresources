@@ -1,7 +1,6 @@
 //
 // Summarizes load times by user for use in barchart.
 //
-
 pageViews
 | where isnotempty(customDimensions.entityName)
 | where customDimensions.isBoot == {ParamIsBoot}

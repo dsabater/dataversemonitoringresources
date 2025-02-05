@@ -1,8 +1,6 @@
 //
 // Groups different load times by country for Barchart visualization.
 //
-
-// Workbook Version
 pageViews
 | where isnotempty(customDimensions.entityName)
 | where customDimensions.isBoot == 1

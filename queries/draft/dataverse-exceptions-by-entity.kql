@@ -1,8 +1,6 @@
 //
 // Returns exception count by Entity and ProblemId
 //
-
-// Log Analytics Version
 exceptions
 | where isnotnull(customDimensions.entityName)
 | extend Entity = tostring(customDimensions.entityName)

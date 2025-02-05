@@ -1,8 +1,6 @@
 //
 // Returns a time series of exception count.
 //
-
-// Log Analytics Version
 exceptions
 | make-series ["Exception Count"]=count() default=0 on timestamp step 1h
 | render timechart 

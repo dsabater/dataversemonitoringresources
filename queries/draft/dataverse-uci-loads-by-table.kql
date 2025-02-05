@@ -1,8 +1,6 @@
 //
 // Summarizes the page loads using PageViews and a couple of parameter from the workbook.
 //
-
-//Workbook Version
 let myPageViews = pageViews
 | where isnotempty(customDimensions.entityName)
 | where customDimensions.isBoot == {ParamIsBoot}

@@ -1,8 +1,6 @@
 //
 // Returns requests that have been thorttled.
 //
-
-//Log Analytics Version
 requests
 | where resultCode == "429"
 | project Time = timestamp, Url = url, User = user_Id, Duration = duration, Operation = operation_Id, itemId
