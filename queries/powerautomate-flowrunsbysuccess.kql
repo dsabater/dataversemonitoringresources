@@ -3,3 +3,4 @@ requests
 | extend data=parse_json(tostring(customDimensions.Data))
 | extend FlowName=tostring(data.FlowDisplayName)
 | summarize FlowRuns=count() by FlowName, Success=success
+| order by FlowName asc, Success asc
