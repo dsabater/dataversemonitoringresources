@@ -1,13 +1,12 @@
 # Dataverse Monitoring resources with Application Insights
 
 # Introduction 
-Collaboration project for WE BizApps CSAs to work on providing useful queries and workbooks for Application Insights monitoring [Dataverse](#dataverse-queries) and [Power Automate](#power-automate-queries) resources based on the standard [Dataverse to Application Insights](https://learn.microsoft.com/en-us/power-platform/admin/analyze-telemetry) integration.
+Collaboration project made by BizApps CSAs who work on providing useful queries and workbooks for monitoring [Dataverse](#dataverse-queries) and [Power Automate](#power-automate-queries) with Application Insights, based on the standard [Dataverse to Application Insights](https://learn.microsoft.com/en-us/power-platform/admin/analyze-telemetry) integration.
 
 # Contents
 This repository contains **queries** in KQL format and **Azure workbooks** in JSON format.
 
 # Queries
-
 
 
 ## Dataverse queries
