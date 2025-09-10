@@ -7,6 +7,8 @@ Collaboration project for WE BizApps CSAs to work on providing useful queries an
 This repository contains **queries** in KQL format and **Azure workbooks** in JSON format.
 
 # Queries
+
+## Dataverse
 - [dataverse-active-users-timeline.kql](queries/dataverse-active-users-timeline.kql)  
   *Active users by time – shows unique users per hour as a column chart.*
 
@@ -79,7 +81,57 @@ This repository contains **queries** in KQL format and **Azure workbooks** in JS
 - [dataverse-query-duration-timeline.kql](queries/dataverse-query-duration-timeline.kql)  
   *Returns a time series of average query duration (timechart).*
 
+- [dataverse-query-target-duration.kql](queries/dataverse-query-target-duration.kql)
+  *Returns SDKRetrieveMultiple queries summarized by avg duration and table*
 
+- [dataverse-search-exceptions.kql](queries/dataverse-search-exceptions.kql)  
+  *Searches all fields of the exceptions table for a given search term.*
+
+- [dataverse-top10-form-loads.kql](queries/dataverse-top10-form-loads.kql)  
+  *Shows the top 10 most common form loads by table, with average load time.*
+
+- [dataverse-top10-view-loads.kql](queries/dataverse-top10-view-loads.kql)  
+  *Shows the top 20 most common view loads by table and view, with average load time.*
+
+- [dataverse-uci-loads-by-country-barchart.kql](queries/dataverse-uci-loads-by-country-barchart.kql)  
+  *Groups different load times by country for barchart visualization.*
+
+- [dataverse-uci-loads-by-table.kql](queries/dataverse-uci-loads-by-table.kql)  
+  *Summarizes page loads using PageViews and workbook parameters, grouped by table.*
+
+- [dataverse-uci-loads-by-user-loadcounts.kql](queries/dataverse-uci-loads-by-user-loadcounts.kql)  
+  *Summarizes load counts by user for use in barchart, including cold and warm loads.*
+
+- [dataverse-uci-loads-by-user-loadtimes.kql](queries/dataverse-uci-loads-by-user-loadtimes.kql)  
+  *Summarizes load times by user for use in barchart, showing average cold and warm load times.*
+
+- [dataverse-uci-loads-by-user-table.kql](queries/dataverse-uci-loads-by-user-table.kql)  
+  *Groups the loads and timing by user and table, including cold and warm load counts.*
+
+
+
+## Power Automate
+
+- [powerautomate-flowerrors.kql](queries/powerautomate-flowerrors.kql)  
+  *Shows failed Cloud Flow actions with error details and task names.*
+
+- [powerautomate-flownames.kql](queries/powerautomate-flownames.kql)  
+  *Lists distinct Cloud Flow display names and IDs.*
+
+- [powerautomate-flowrunsbysuccess.kql](queries/powerautomate-flowrunsbysuccess.kql)  
+  *Summarizes Cloud Flow runs by flow name and success status.*
+
+- [powerautomate-flowsbybillableactions.kql](queries/powerautomate-flowsbybillableactions.kql)  
+  *Shows top 10 Cloud Flows by billable actions.*
+
+- [powerautomate-flowsbyruns.kql](queries/powerautomate-flowsbyruns.kql)  
+  *Shows top 10 Cloud Flows by number of runs.*
+
+- [powerautomate-navigatetoflowrun.kql](queries/powerautomate-navigatetoflowrun.kql)  
+  *Builds direct URLs to failed Cloud Flow runs for investigation.*
+
+- [powerautomate-triggererrors.kql](queries/powerautomate-triggererrors.kql)  
+  *Summarizes failed Cloud Flow triggers by flow name.*
 
 
 # Instructions - Workbooks
