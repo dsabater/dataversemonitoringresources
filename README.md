@@ -1,14 +1,17 @@
 # Dataverse Monitoring resources with Application Insights
 
 # Introduction 
-Collaboration project for WE BizApps CSAs to work on providing useful queries and workbooks for Application Insights monitoring Dataverse resources based on the standard [Dataverse to Application Insights](https://learn.microsoft.com/en-us/power-platform/admin/analyze-telemetry) integration.
+Collaboration project for WE BizApps CSAs to work on providing useful queries and workbooks for Application Insights monitoring [Dataverse](#dataverse-queries) and [Power Automate](#power-automate-queries) resources based on the standard [Dataverse to Application Insights](https://learn.microsoft.com/en-us/power-platform/admin/analyze-telemetry) integration.
 
 # Contents
 This repository contains **queries** in KQL format and **Azure workbooks** in JSON format.
 
 # Queries
 
-## Dataverse
+
+
+## Dataverse queries
+
 - [dataverse-active-users-timeline.kql](queries/dataverse-active-users-timeline.kql)  
   *Active users by time – shows unique users per hour as a column chart.*
 
@@ -109,8 +112,7 @@ This repository contains **queries** in KQL format and **Azure workbooks** in JS
   *Groups the loads and timing by user and table, including cold and warm load counts.*
 
 
-
-## Power Automate
+## Power Automate queries
 
 - [powerautomate-flowerrors.kql](queries/powerautomate-flowerrors.kql)  
   *Shows failed Cloud Flow actions with error details and task names.*
