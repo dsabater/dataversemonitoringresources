@@ -1,0 +1,5 @@
+pageViews
+| extend hour=hourofday(timestamp)
+| extend pageName = tostring(parse_json(customDimensions).pageName)
+| summarize count() by hour, pageName
+| render columnchart with (title="Page Views by Hour of Day", xtitle="Hour of Day", ytitle="Page Views", legend=visible)
