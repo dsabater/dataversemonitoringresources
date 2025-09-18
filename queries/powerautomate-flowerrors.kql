@@ -1,15 +1,14 @@
 dependencies
-//| where timestamp between (datetime('2025-02-20') .. datetime('2025-02-22'))
 | where customDimensions.resourceProvider == 'Cloud Flow'
 | where customDimensions.signalCategory == 'Cloud flow actions'
 | where success == False
 | extend tags=parse_json(tostring(customDimensions.tags))
 | extend err=parse_json(tostring(customDimensions.error))
 | extend data=parse_json(tostring(customDimensions.Data))
-| extend ErrorCode=tostring(err.code)
+| extend ErrorCode=tostring(data.code)
 | extend ErrorMessage=tostring(err.message)
 | extend TaskName = tostring(data.TaskName)
 | extend ActionName = tostring(data.actionName)
 | extend ActionType = tostring(data.actionType)
 | extend FlowName=tostring(tags.flowDisplayName)
-| summarize ActionFailures=count() by FlowName, TaskName, ActionName, ActionType, ErrorMessage
+| summarize ActionFailures=count() by FlowName, TaskName, ActionName, ActionType, ErrorCode, ErrorMessage
