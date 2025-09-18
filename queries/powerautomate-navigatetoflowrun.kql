@@ -1,3 +1,4 @@
+// Generate URLs to navigate to failed Power Automate flow runs
 requests
 | where customDimensions.resourceProvider == 'Cloud Flow'
 | where success == False

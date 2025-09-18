@@ -1,4 +1,4 @@
-// Most common view loads
+// Top 10 common view loads
 pageViews
 | where name startswith "EntityList"
 | extend cd=parse_json(customDimensions)

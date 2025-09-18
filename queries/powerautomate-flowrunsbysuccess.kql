@@ -1,3 +1,4 @@
+// Power Automate flow runs by success and failure
 requests
 | where customDimensions.resourceProvider == 'Cloud Flow'
 | extend data=parse_json(tostring(customDimensions.Data))

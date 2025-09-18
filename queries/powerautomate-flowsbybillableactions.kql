@@ -1,3 +1,4 @@
+// Top 10 Power Automate flows by billable actions
 dependencies
 | where customDimensions.resourceProvider == 'Cloud Flow'
 | where customDimensions.error !contains 'skipped'

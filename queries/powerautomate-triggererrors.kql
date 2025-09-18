@@ -1,3 +1,4 @@
+// Power Automate trigger errors
 dependencies
 | where customDimensions.resourceProvider == 'Cloud Flow'
 | where customDimensions.signalCategory == 'Cloud flow triggers'

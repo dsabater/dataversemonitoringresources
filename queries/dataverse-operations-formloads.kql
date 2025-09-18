@@ -1,3 +1,4 @@
+// Form load operations on Dataverse tables
 pageViews
 | where name startswith "EditForm Load -"
 | extend cd=parse_json(customDimensions)

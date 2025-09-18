@@ -1,3 +1,4 @@
+// Create-Update-Delete operations on Dataverse tables
 dependencies
 | where type in ("SDKCreate","SDKUpsert", "SDKUpdate", "SDKDelete")
 | extend Operation=substring(type, 3)

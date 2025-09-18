@@ -1,3 +1,4 @@
+// Page views by hour of day
 pageViews
 | extend hour=hourofday(timestamp)
 | extend pageName = tostring(parse_json(customDimensions).pageName)
