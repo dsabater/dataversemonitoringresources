@@ -6,6 +6,27 @@ Collaboration project made by BizApps CSAs who work on providing useful queries 
 # Contents
 This repository contains **queries** in KQL format and **Azure workbooks** in JSON format.
 
+
+# AppInsights Helper Functions
+
+Example C# project with helper functions for Azure Application Insights in the context of Dataverse telemetry. This project provides utility methods to simplify the integration of custom metrics that are not automatically captured by Dataverse telemetry, like user information, table row count, and other custom data points. It is based on **Azure Functions** with the overall idea to be run periodically to capture custom metrics and send them to Azure Application Insights for monitoring and analysis.
+
+**Table row count**
+This example captures the row count of a set of tables in Dataverse and publishes it as a _customMetric_. This is particularly useful for monitoring the growth of data and identifying potential performance issues.
+
+**User information**
+This example captures user information, such as systemuserid and email address, and publishes it as a _customEvent_. This can help in understanding user engagement and identifying trends in user activity.
+
+**Form data**
+This example captures additional Dataverse Form data, such as form name, and publishes it as a _customEvent_. This can help in monitoring the performance of forms and identifying potential bottlenecks.
+
+**View data**
+This example captures additional Dataverse View data, such as view name, and publishes it as a _customEvent_. This can help in monitoring the performance of views and identifying potential bottlenecks.
+
+
+
+
+
 # Queries
 
 
@@ -24,7 +45,7 @@ This repository contains **queries** in KQL format and **Azure workbooks** in JS
   *Returns requests that have been throttled due to Dataverse protection limits as a timechart.*
 
 - [dataverse-exception-details.kql](queries/dataverse-exception-details.kql)  
-  *Returns detalils on exceptions including entityName and problemId, with links for workbooks.*
+  *Returns details on exceptions including entityName and problemId, with links for workbooks.*
 
 - [dataverse-exceptions-by-entity.kql](queries/dataverse-exceptions-by-entity.kql)  
   *Returns exception count by Entity (table) and ProblemId.*
